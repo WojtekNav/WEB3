@@ -1,0 +1,22 @@
+pragma solidity ^0.8.7;
+
+//SPDX-License-Identifier: MIT
+
+contract Collector{
+    address public owner;
+    uint public balance;
+    constructor(){
+        owner=msg.sender;//defines sender as owner
+    }
+    function recieve() payable external{
+        balance+=msg.value;//adds value to balance 
+    }
+
+    function withdraw(uint256 amount, address payable destin) public{
+        require(owner==msg.sender, "Not allowed");
+        require(balance<amount, "Don't have enough balance");
+        destin.transfer(amount);
+        balance-=amount;
+    }
+
+}
